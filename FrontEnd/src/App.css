@@ -39,8 +39,6 @@
 }
 
 .form-structure {
-  display: flex;
-  flex-direction: column;
 }
 
 .form-structure button {
@@ -53,12 +51,6 @@
   cursor: pointer;
 }
 
-.form-structure input[type='text'] {
-  height: 30px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 12px;
-}
 
 .form-structure a {
   margin-top: 15px;

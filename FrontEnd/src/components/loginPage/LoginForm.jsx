@@ -1,5 +1,5 @@
 import Logo from '../commmonComp/Logo'
-import InputLoginForm from '../InputLoginForm'
+import InputLoginForm from './comp/InputLoginForm'
 
 export default function LoginForm() {
     

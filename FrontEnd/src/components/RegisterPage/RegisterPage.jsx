@@ -1,5 +1,5 @@
 import React from 'react'
-import RegisterForm from '../RegisterForm'
+import RegisterForm from './comp/RegisterForm'
 import Logo from '../commmonComp/Logo'
 
 export default function RegisterPage() {
