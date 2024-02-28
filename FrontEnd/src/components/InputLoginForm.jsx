@@ -14,7 +14,7 @@ export default function InputLoginForm () {
                 <label htmlFor="userpwd">Password:</label>
                 <input type="text" name="userpwd"/>
                 <button type="submit">Login</button>
-                <a href="/register">Are you new? Please register here!</a>
+                <a href="/register">Don't have an account? Please register here!</a>
             </form>
         </>
     )
