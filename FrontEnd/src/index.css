@@ -1,3 +1,75 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.cinzel {
+    font-family: "Cinzel Decorative", serif;
+    font-weight: 600;
+}
+
+.medievalsharp {
+    font-family: "MedievalSharp", cursive;
+}
+
+.medievalsharp-bold {
+    font-family: "MedievalSharp", cursive;
+    font-weight: 600;
+}
+
+.bg-landing {
+    width: 100%;
+    height: 100vh;
+    background-image: url(assets/img/bgLanding.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.bg-home {
+    width: 100%;
+    height: 100vh;
+    background-image: url(assets/img/bgHome.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.form-card {
+    transform: translate(50%, -50%)
+}
+
+.form-card img {
+    width: 200px;
+    align-self: center;
+}
+
+.form-card button {
+    color: white;
+}
+
+.form-card button:hover {
+    background-color: white;
+    outline: 1px solid #8b7455;
+    color: black;
+    transition: 0.5s;
+}
+
+.container-home {
+    height: 700px;
+}
+
+.alt-font {
+    font-family: 'CinzelDecorative';
+}
+
+.modal {
+    transform: translate(-50%);
+}

@@ -7,7 +7,11 @@ export default {
   theme: {
     extend: {},
     colors: {
-      'ancient': '#8b7455'
+      'ancient': '#8b7455',
+      'scroll' : '#e4bf8a',
+      'red' : 'red',
+      'white' : 'white',
+      'black' : 'black',
     }
   },
   plugins: [],
