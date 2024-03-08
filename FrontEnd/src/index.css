@@ -63,7 +63,8 @@
 }
 
 .container-home {
-    height: 700px;
+
+    max-height: 80vh;
 }
 
 .alt-font {
@@ -72,4 +73,23 @@
 
 .modal {
     transform: translate(-50%);
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 10px;
+    /* Larghezza della scrollbar */
+}
+
+.scrollbar-ancient::-webkit-scrollbar-thumb {
+    background-color: #8b7455;
+    /* Colore del cursore della scrollbar */
+    border-radius: 5px;
+    /* Raggio degli angoli del cursore della scrollbar */
+}
+
+.scrollbar-scroll::-webkit-scrollbar-thumb {
+    background-color: #e4bf8a;
+    /* Colore del cursore della scrollbar */
+    border-radius: 5px;
+    /* Raggio degli angoli del cursore della scrollbar */
 }
