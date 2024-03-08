@@ -9,6 +9,7 @@ import {
 import RegisterPage from './components/RegisterPage/RegisterPage.jsx';
 import Prova from './components/pages/Prova.jsx';
 import Home from './components/home/Home.jsx';
+import ChatPage from './components/chatPage/ChatPage.jsx';
 
 
 const router = createBrowserRouter([
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home />
+  },
+  {
+    path: "/chat",
+    element: <ChatPage />
   },
   {
     path: "/prova",

@@ -13,10 +13,10 @@ export default function Home() {
   };
 
   return (
-    <div className='bg-home relative'>
+    <div className={`bg-home relative ${sharedValue ? 'overflow-hidden' : ''} `}>
       <Modal sharedValue={sharedValue} handleChange={handleChange} />
       <Header handleChange={handleChange} />
-      <div className='flex justify-around'>
+      <div className='flex flex-col md:flex-row justify-around'>
         <ChatSection></ChatSection>
         <CharacterSection></CharacterSection>
       </div>
