@@ -7,7 +7,7 @@ export default function CharacterSection() {
 
     return (
         <>
-            <div className="container-home w-full md:w-1/3 bg-scroll border-2 border-black rounded-md bg-opacity-70 overflow-y-scroll scrollbar scrollbar-ancient">
+            <div className="relative container-home w-full md:w-1/3 bg-scroll border-2 border-black rounded-md bg-opacity-70 overflow-y-scroll scrollbar scrollbar-ancient">
                 <div className="flex  justify-between mx-5 items-center my-2">
                     <p className="text-3xl cinzel">Character</p>
                     <button>

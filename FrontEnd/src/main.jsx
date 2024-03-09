@@ -10,6 +10,7 @@ import RegisterPage from './components/RegisterPage/RegisterPage.jsx';
 import Prova from './components/pages/Prova.jsx';
 import Home from './components/home/Home.jsx';
 import ChatPage from './components/chatPage/ChatPage.jsx';
+import UserProfile from './components/userProfile/UserProfile.jsx';
 
 
 const router = createBrowserRouter([
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/chat",
     element: <ChatPage />
+  },
+  {
+    path: "/userProfile",
+    element: <UserProfile />
   },
   {
     path: "/prova",

@@ -6,13 +6,28 @@ export default {
   ],
   theme: {
     extend: {},
-    colors: {
-      'ancient': '#8b7455',
-      'scroll' : '#e4bf8a',
-      'red' : 'red',
-      'white' : 'white',
-      'black' : 'black',
-    }
+    colors:{
+      ancient: '#8b7455',
+      scroll: '#e4bf8a',
+      red: 'red',
+      white: 'white',
+      black: 'black',
+      blue: 'blue',
+      green: '#4BDB00',
+      yellow: 'yellow',
+      purple: 'purple',
+      orange: 'orange',
+      cyan: 'cyan',
+      magenta: 'magenta',
+      teal: 'teal',
+      navy: 'navy',
+      silver: 'silver',
+      olive: 'olive',
+      maroon: 'maroon',
+      lime: 'lime',
+      fuchsia: 'fuchsia',
+      aqua: 'aqua'
+    },
   },
   plugins: [],
 }

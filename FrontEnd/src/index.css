@@ -50,6 +50,16 @@
     background-image: url(assets/img/bgChat.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+    position: relative;
+}
+
+.bg-user-profile {
+    width: 100%;
+    height: 100vh;
+    background-image: url(assets/img/bgUserProfile.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
 }
 
 .form-card {
@@ -73,8 +83,23 @@
 }
 
 .container-home {
+max-height: 80vh;
+}
 
-    max-height: 80vh;
+.container-chat {
+    max-height: 70vh;
+}
+
+.container-input {
+    max-height: 10vh;
+}
+
+.container-comments {
+    max-height: 40vh;
+}
+
+.container-users {
+    max-height: 30vh;
 }
 
 .alt-font {
@@ -98,4 +123,16 @@
 .scrollbar-scroll::-webkit-scrollbar-thumb {
     background-color: #e4bf8a;
     border-radius: 5px;
+}
+
+.character-select {
+    appearance: w;
+    cursor: pointer;
+    outline: none;
+  }
+
+.character-select:hover  {
+    appearance: none;
+    cursor: pointer;
+    outline: none;
 }

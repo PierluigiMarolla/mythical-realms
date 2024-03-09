@@ -14,6 +14,7 @@ export default function Home() {
 
   return (
     <div className={`bg-home relative ${sharedValue ? 'overflow-hidden' : ''} `}>
+      <div className="absolute inset-0 bg-black opacity-25"></div>
       <Modal sharedValue={sharedValue} handleChange={handleChange} />
       <Header handleChange={handleChange} />
       <div className='flex flex-col md:flex-row justify-around'>
