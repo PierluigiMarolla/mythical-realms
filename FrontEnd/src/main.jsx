@@ -11,6 +11,8 @@ import Prova from './components/pages/Prova.jsx';
 import Home from './components/home/Home.jsx';
 import ChatPage from './components/chatPage/ChatPage.jsx';
 import UserProfile from './components/userProfile/UserProfile.jsx';
+import UserCharacterAdd from './components/userCharacter/UserCharacterAdd.jsx';
+import UserCharacterEdit from './components/userCharacterEdit/UserCharacterEdit.jsx';
 
 
 const router = createBrowserRouter([
@@ -33,6 +35,14 @@ const router = createBrowserRouter([
   {
     path: "/userProfile",
     element: <UserProfile />
+  },
+  {
+    path: "/userCharacterAdd",
+    element: <UserCharacterAdd />
+  },
+  {
+    path: "/userCharacterEdit",
+    element: <UserCharacterEdit />
   },
   {
     path: "/prova",

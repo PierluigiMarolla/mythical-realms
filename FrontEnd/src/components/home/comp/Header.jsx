@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import messageSVG from "../../../assets/svg/message-solid.svg";
 import userSVG from "../../../assets/svg/profile-solid.svg";
+import { NavLink } from "react-router-dom";
 
 export default function Header({ handleChange }) {
 
@@ -18,11 +19,11 @@ export default function Header({ handleChange }) {
                     <button onClick={handleButtonClick}>
                         <img className="bg-scroll p-2 w-10 rounded-md" src={messageSVG} />
                     </button>
-                    <a href="/userProfile">
+                    <NavLink to={"/userProfile"}>
                         <button className="ms-10">
                             <img className="bg-scroll p-2 w-10 rounded-md" src={userSVG} />
                         </button>
-                    </a>
+                    </NavLink>
                 </div>
             </div>
         </>

@@ -26,7 +26,7 @@ export default function Chat(){
                     <UserMessage></UserMessage>
                     <OtherUserMessage></OtherUserMessage>
                 </div>
-                <form className="container-input flex justify-around mt-12 items-center">
+                <form className="container-input flex justify-around mt-12 items-center h-10">
                     <select className="w-16 h-16 rounded-full bg-scroll border ps-3 pe-1 hover:pe-4 hover:ps-4 hover:scale-105 hover:duration-200 character-select" name="character" id="character">
                         <option value="0">PG</option>
                         <option value="1">PG1</option>
