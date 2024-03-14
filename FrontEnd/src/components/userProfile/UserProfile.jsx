@@ -61,7 +61,7 @@ export default function UserProfile() {
                                 <button onClick={handleBackClick} className="bg-ancient border border-black w-1/3 self-center p-2 rounded-full">Back</button>
                                 <button type="submit" onClick={handleUpdateClick} className="bg-ancient border border-black w-1/3 self-center p-2 rounded-full">Update</button>
                             </div>
-                            <NavLink className={"self-center"} to={"/home"}><button onClick={handleBackClick} className="bg-ancient border border-black p-2 rounded-full mt-3">Back to Home</button></NavLink>
+                            <NavLink className={"self-center"} to={"/"}><button onClick={handleBackClick} className="bg-ancient border border-black p-2 rounded-full mt-3">Back to Home</button></NavLink>
                         </div>
                     </form>
                 </div>

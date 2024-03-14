@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProvaApiController;
 
 /*
@@ -15,8 +18,16 @@ use App\Http\Controllers\ProvaApiController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/* Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+}); */
 
-Route::get('prova',[ProvaApiController::class,'index']);
+require __DIR__ . '/auth.php';
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', function () {
+        return Auth::user();
+    });
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('edit', ProfileController::class);
+});

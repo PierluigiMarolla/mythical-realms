@@ -1,40 +1,33 @@
-import React from 'react'
-
-
-
-
-function fetchAndReturnData() {
-    return fetch('http://127.0.0.1:8000/api/prova')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Request Error');
-            }
-            return response.json();
-        })
-        .then(data => {
-            return data; 
-        })
-        .catch(error => {
-            
-            console.log('Si è verificato un errore:', error);
-        });
-}
-
-fetchAndReturnData()
-    .then(data => {
-        console.log(data); 
-    })
-    .catch(error => {
-        console.log('There was an error with data elaboration: ', error);
-    });
-
-
-
+import React, { useState, useEffect } from 'react';
 
 export default function Prova() {
+    const [userData, setUserData] = useState(null);
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/api/user')
+
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Request Error');
+                }
+                return response;
+            })
+            .then(data => {
+                setUserData(data);
+                console.log(data)
+            })
+            .catch(error => {
+                console.log('Si è verificato un errore:', error);
+            });
+    }, []);
+
     return (
-        <div>placeholder</div>
-    )
+        <div>
+            {userData && (
+                <pre>{JSON.stringify(userData, null, 2)}</pre>
+            )}
+        </div>
+    );
 }
 
 

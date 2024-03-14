@@ -50,7 +50,7 @@ export default function UserCharacterAdd() {
 
                             </div>
                             <button type="submit" onClick={handleEditClick} className="bg-ancient border border-black w-1/2 self-center p-2 rounded-full">Add Character</button>
-                            <NavLink to={"/home"} className={"self-center"}><button type="submit" className="bg-ancient border border-black self-center py-2 px-3 mt-3 rounded-full">Back</button></NavLink>
+                            <NavLink to={"/"} className={"self-center"}><button type="submit" className="bg-ancient border border-black self-center py-2 px-3 mt-3 rounded-full">Back</button></NavLink>
                         </div>
                     </form>
                 </div>

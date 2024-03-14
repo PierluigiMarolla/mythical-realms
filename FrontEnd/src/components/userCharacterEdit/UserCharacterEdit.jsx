@@ -85,7 +85,7 @@ export default function UserCharacterEdit() {
                                 <button onClick={handleBackClick} className="bg-ancient border border-black w-1/3 self-center p-2 rounded-full">Back</button>
                                 <button type="submit" onClick={handleUpdateClick} className="bg-ancient border border-black w-1/3 self-center p-2 rounded-full">Update</button>
                             </div>
-                            <NavLink to={"/home"} className={"self-center"}><button type="submit" className="bg-ancient border border-black self-center py-2 px-3 mt-3 rounded-full">Back to Home</button></NavLink>
+                            <NavLink to={"/"} className={"self-center"}><button type="submit" className="bg-ancient border border-black self-center py-2 px-3 mt-3 rounded-full">Back to Home</button></NavLink>
                         </div>
                     </form>
                 </div>

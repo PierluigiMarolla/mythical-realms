@@ -1,22 +1,72 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthProvider';
+import { useForm } from 'react-hook-form';
 
-function handleRegisterClick(event) {
-    event.preventDefault();
-}
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-export default function RegisterForm(){
+
+export default function RegisterForm() {
+
+    const { fetcher, setAsLogged } = useAuth();
+
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        setError,
+        formState: { errors },
+    } = useForm({ mode: "all" });
+
+    const getErrorTypes = (errors) => {
+        const types = {};
+        errors.forEach((error, i) => {
+            types[`apiError${i + 1}`] = error
+        })
+        console.log(types);
+        return types;
+    }
+
+    const onSubmit = (formData) => {
+        fetcher(`${BACKEND_URL}/register`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify(formData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (!data.errors) {
+                    setAsLogged(data.user, data["access_token"])
+                } else {
+                    Object.keys(data.errors).forEach(field => {
+                        if (data.errors[field]) {
+                            setError(field, {
+                                types: getErrorTypes(data.errors[field])
+                            })
+                        }
+                    })
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
     return (
         <>
-            <form className="flex flex-col" onSubmit={handleRegisterClick}>
+            <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
                 <label htmlFor="username">Username:</label>
-                <input className='my-2 rounded-xl h-7 leading-7 focus:outline-none focus:border focus:border-ancient ps-1' type="text" name="username" />
+                <input {...register("name", { required: 'Field "Name" is required' })} className='my-2 rounded-xl h-7 leading-7 focus:outline-none focus:border focus:border-ancient ps-1' type="text" name="username" />
                 <label htmlFor="email">Email:</label>
-                <input className='my-2 rounded-xl h-7 leading-7 focus:outline-none focus:border focus:border-ancient ps-1' type="text" name="email" />
+                <input {...register("email", { required: 'Field "Email" is required' })} className='my-2 rounded-xl h-7 leading-7 focus:outline-none focus:border focus:border-ancient ps-1' type="email" name="email" />
                 <label htmlFor="userpwd">Password:</label>
-                <input className='my-2 rounded-xl h-7 leading-7 focus:outline-none focus:border focus:border-ancient ps-1' type="text" name="userpwd" />
+                <input {...register("password", { required: 'Field "Password" is required', })} className='my-2 rounded-xl h-7 leading-7 focus:outline-none focus:border focus:border-ancient ps-1' type="password" name="userpwd" />
+                <label htmlFor="pwdconfirm">Password:</label>
+                <input {...register("password_confirmation", { required: 'Field "Password confirmation" is required', })} className='my-2 rounded-xl h-7 leading-7 focus:outline-none focus:border focus:border-ancient ps-1' type="password" name="pwdconfirm" />
                 <button className="bg-ancient hover:bg-white w-40 self-center rounded-3xl p-2.5 mt-5 cinzel" type="submit">Register</button>
-                <NavLink className="text-center text-ancient mt-3" to={"/"}>You have already registered? click here to login!</NavLink>
+                <NavLink className="text-center text-ancient mt-3" to={"/login"}>You have already registered? click here to login!</NavLink>
             </form>
         </>
     )
