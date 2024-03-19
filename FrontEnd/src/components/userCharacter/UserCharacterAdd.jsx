@@ -1,20 +1,80 @@
 import { useState } from "react"
+import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider"
+
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function UserCharacterAdd() {
 
+    const { fetcher } = useAuth()
+
     const [filePreview, setFilePreview] = useState(null);
 
-    function handleEditClick(event) {
-        event.preventDefault();
+    const { register, handleSubmit } = useForm({ mode: "all" });;
+    const [avatar, setAvatar] = useState();
+
+    const getErrorTypes = (errors) => {
+        const types = {};
+        errors.forEach((error, i) => {
+            types[`apiError${i + 1}`] = error
+        })
+        console.log(types);
+        return types;
     }
 
-    function handleBackClick(event) {
-        event.preventDefault();
-    }
+    const onSubmit = (characterData) => {
+        // Qui puoi inviare i dati al backend utilizzando fetch, axios o un'altra libreria per le chiamate API.
+        // Ad esempio:
+
+        const ctrFormData = new FormData();
+        ctrFormData.append(
+            "name",
+            characterData.name
+        )
+
+        console.log(avatar)
+        
+
+        ctrFormData.append(
+            "avatar",
+            avatar
+        )
+
+        fetcher(`${BACKEND_URL}/characters`, {
+            method: 'POST',
+            body: ctrFormData,
+        })
+        
+        .then((response) => response.json())
+            .then((data) => {
+                console.log(characterData)
+                if (!data.errors) {
+                    console.log(data)
+                } else {
+                    Object.keys(data.errors).forEach(field => {
+                        if (data.errors[field]) {
+                            setError(field, {
+                                types: getErrorTypes(data.errors[field])
+                            })
+                        }
+                    })
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+
+
+
 
     const handleFileChange = (event) => {
+        
         const file = event.target.files[0];
+        setAvatar(file)
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -29,14 +89,23 @@ export default function UserCharacterAdd() {
             <div className="bg-user-character relative">
                 <div className="absolute inset-0 bg-black opacity-30"></div>
                 <div className="flex-column form-card bg-scroll w-full md:w-1/2 xl:w-1/3 p-5 xl:px-16 border-2 border-ancient md:rounded-3xl absolute right-1/2 top-2/4">
-                    <form>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="flex flex-col">
                             <label className="medievalsharp-bold uppercase text-3xl text-center">Add a character</label>
                             <div className="mt-5">
                                 <div className="my-2 py-3 items-center">
-                                    <label className="text-2xl medievalsharp-bold">Avatar:</label >
+                                    <label
+                                        className="text-2xl medievalsharp-bold">
+                                        Avatar:
+                                    </label >
                                     <div className="mt-4">
-                                        <input className="w-full h-8 rounded-full px-2 outline-none focus:border" type="file" id="fileInput" onChange={handleFileChange} />
+                                        <input
+                                            {...register("avatar", { required: 'Avatar image is required' })}
+                                            className="w-full h-8 rounded-full px-2 outline-none focus:border"
+                                            type="file"
+                                            name="avatar"
+                                            id="fileInput"
+                                            onChange={handleFileChange} />
                                         <div className="flex justify-between items-center">
                                             <label htmlFor="fileInput" className="h-12 bg-ancient p-3 rounded-full text-white border border-black">Upload Character's Avatar</label>
                                             {filePreview && <img src={filePreview} className="bg-ancient border-2" alt="Prewiew" />}
@@ -44,13 +113,21 @@ export default function UserCharacterAdd() {
                                     </div>
                                 </div>
                                 <div className="my-2 py-3 items-center">
-                                    <label className="text-2xl medievalsharp-bold ">Name:</label >
-                                    <input className="w-full h-8 rounded-full px-2 outline-none focus:border" placeholder="Insert Character Name" type="text" />
+                                    <label
+                                        className="text-2xl medievalsharp-bold ">
+                                        Name:
+                                    </label >
+                                    <input
+                                        {...register("name", { required: 'Field "Name" is required' })}
+                                        name="name"
+                                        className="w-full h-8 rounded-full px-2 outline-none focus:border"
+                                        placeholder="Insert Character Name"
+                                        type="text" />
                                 </div>
 
                             </div>
-                            <button type="submit" onClick={handleEditClick} className="bg-ancient border border-black w-1/2 self-center p-2 rounded-full">Add Character</button>
-                            <NavLink to={"/"} className={"self-center"}><button type="submit" className="bg-ancient border border-black self-center py-2 px-3 mt-3 rounded-full">Back</button></NavLink>
+                            <button className="bg-ancient border border-black w-1/2 self-center p-2 rounded-full">Add Character</button>
+                            <NavLink to={"/"} className={"self-center"}><button className="bg-ancient border border-black self-center py-2 px-3 mt-3 rounded-full">Back</button></NavLink>
                         </div>
                     </form>
                 </div>

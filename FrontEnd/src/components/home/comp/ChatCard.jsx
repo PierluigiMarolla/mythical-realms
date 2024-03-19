@@ -6,14 +6,9 @@ export default function ChatCard(props) {
         <>
             <div className="border-t hover:scale-y-110 hover:duration-200 hover:border-b">
                     <div className="w-full bg-ancient py-3 flex justify-between items-center px-5">
-                        <img className="w-24" src={chatLogo}/>
-                        <div className="text-center">
-                            <p className="cinzel">{props.title}</p>
-                            <p className="medievalsharp">{props.message}</p>
-                        </div>
-                        <div className="text-center">
-                            <p className="cinzel">Chat Members</p>
-                            <p className="medievalsharp">{props.members}/10</p>
+                        <img className="w-24" src={props.cLogo}/>
+                        <div className="w-full text-center">
+                            <p className="medievalsharp-bold text-2xl capitalize ">{props.cTitle}</p>
                         </div>
                     </div>
                 </div>

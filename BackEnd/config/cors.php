@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'], // Aggiungi l'origine consentita qui
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
@@ -29,6 +29,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false, // Imposta su true se vuoi consentire le credenziali come i cookie
+    'supports_credentials' => false,
 
 ];

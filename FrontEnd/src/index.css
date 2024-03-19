@@ -93,7 +93,12 @@
 
 .container-home {
 max-height: 80vh;
+height: 100vh;
 }
+
+.container-modal {
+    max-height: 55vh;
+    }
 
 .container-chat {
     max-height: 70vh;

@@ -18,7 +18,7 @@ export default function InputLoginForm() {
     } = useForm({ mode: "all" });
 
     const onSubmit = (formData) => {
-        fetcher(`${BACKEND_URL}/api/login`, {
+        fetcher(`${BACKEND_URL}/login`, {
             method: "POST",
             headers: {
                 "Content-type": "application/json",

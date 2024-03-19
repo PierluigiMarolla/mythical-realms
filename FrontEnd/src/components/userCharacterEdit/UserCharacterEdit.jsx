@@ -1,15 +1,18 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
+import { useParams } from 'react-router-dom';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function UserCharacterEdit() {
 
     const [filePreview, setFilePreview] = useState(null);
 
-    function handleEditClick() {
+    function handleEditClick(event) {
         event.preventDefault();
-    }
+    } 
 
-    function handleBackClick() {
+    function handleBackClick(event) {
         event.preventDefault();
     }
 
@@ -24,33 +27,65 @@ export default function UserCharacterEdit() {
         }
     };
 
+
+    const { id } = useParams();
+    const { userData } = useAuth()
+
+    const [effettoEseguito, setEffettoEseguito] = useState(0);
+
+    const [ctrId, setCtrId] = useState();
+    const [fetchedCtr, setFetchedCtr] = useState([]);
+
+      useEffect(() => {
+        setCtrId(id);
+      }, [id]);
+
+      useEffect(() => {
+        if (effettoEseguito < 2) {
+          fetch(`${BACKEND_URL}/characters/${ctrId}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Errore nella richiesta');
+              }
+              return response.json();
+            })
+            .then(data => {
+              setFetchedCtr(data);
+              setEffettoEseguito(prev => prev + 1);
+            })
+            .catch(error => {
+              console.log('Si è verificato un errore:', error);
+            });
+        }
+      }, [effettoEseguito, ctrId]);
+    
+    
+
     /*  */
 
     const [isClicked, setIsClicked] = useState(false)
-    const [editName, setEditName] = useState("CHARACTER_NAME")
-    const [editAvatar, setEditAvatar] = useState("YOUR_EMAIL")
+    const [editName, setEditName] = useState("")
 
+    
     function handleEditClick(event) {
         event.preventDefault();
+        setEditName(fetchedCtr.name)
         setIsClicked(true)
     }
 
     function handleBackClick(event) {
         event.preventDefault();
         setIsClicked(false)
-        setEditName("CHARACTER_NAME")
-        setEditAvatar("YOUR_EMAIL")
+        setEditName(fetchedCtr.name)
     }
 
     function handleUpdateClick(event) {
         event.preventDefault();
         setIsClicked(false)
-        setEditName("CHARACTER_NAME")
-        setEditEmail("YOUR_EMAIL")
+        setEditName(fetchedCtr.name)
     }
-
-    let fetchContent = "FetchContentCharacter"
-
+ 
+    console.log(fetchedCtr.name)
     return (
         <>
             <div className="bg-user-character relative">
@@ -70,12 +105,12 @@ export default function UserCharacterEdit() {
                                         </div>
                                     </div>
                                     <div className={`mt-4 ${isClicked ? "hidden" : ""}`} >
-                                        <label>{fetchContent}</label>
+                                        <img src={fetchedCtr.avatar_url} />
                                     </div>
-                                </div>
+                                </div> 
                                 <div className="my-2 py-3 items-center">
                                     <p className="text-2xl medievalsharp-bold ">Name:</p>
-                                    <p className={`${isClicked ? "hidden" : ""}`} >{fetchContent}</p>
+                                    <p className={`${isClicked ? "hidden" : ""}`} >{fetchedCtr.name}</p>
                                     <input value={editName} onChange={(e) => setEditName(e.target.value)} className={`w-full h-8 rounded-full px-2 outline-none focus:border ${isClicked ? "" : "hidden"}`} type="text" />
                                 </div>
 

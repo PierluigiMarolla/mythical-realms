@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProvaApiController;
+use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +18,6 @@ use App\Http\Controllers\ProvaApiController;
 |
 */
 
-/* Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-}); */
-
 require __DIR__ . '/auth.php';
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -29,5 +25,13 @@ Route::middleware('auth:sanctum')->group(function () {
         return Auth::user();
     });
     Route::apiResource('users', UserController::class);
-    Route::apiResource('edit', ProfileController::class);
+    Route::post('users/{user}/avatar', [UserController::class, 'uploadAvatar']);
+    Route::apiResource('characters', CharacterController::class);
 });
+
+Route::post('/characters/{character}/upload-avatar', [CharacterController::class, 'uploadAvatar']);
+Route::post('/characters/{character}/remove-avatar', [CharacterController::class, 'removeAvatar']);
+Route::get('/chats', [ChatController::class, 'index']);
+Route::get('/chats/{id}', [ChatController::class, 'show']);
+Route::get('/chats/message', [MessageController::class, 'index']);
+

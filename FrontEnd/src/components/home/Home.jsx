@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './comp/Header.jsx';
 import ChatSection from './comp/ChatSection.jsx';
 import CharacterSection from './comp/CharacterSection.jsx';
 import Modal from './comp/Modal.jsx';
+import { useAuth } from '../../context/AuthProvider.jsx';
+
+
 
 export default function Home() {
 
@@ -11,6 +14,7 @@ export default function Home() {
   const handleChange = (newValue) => {
     setSharedValue(newValue);
   };
+
 
   return (
     <div className={`bg-home relative ${sharedValue ? 'overflow-hidden' : ''} `}>
