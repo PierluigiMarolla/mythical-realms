@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import messageSVG from "../../../assets/svg/message-solid.svg";
+import logoutSVG from "../../../assets/svg/logout-solid.svg";
 import userSVG from "../../../assets/svg/profile-solid.svg";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../../context/AuthProvider";
@@ -22,17 +23,17 @@ export default function Header({ handleChange }) {
                     <p className="text-xl md:text-3xl cinzel">{userData?.user?.name} </p>
                 </div>
                 <div className="">
-                    <button onClick={handleButtonClick}>
+                    <button className="hover:scale-150 hover:duration-500" onClick={handleButtonClick}>
                         <img className="bg-scroll p-2 w-10 rounded-md" src={messageSVG} />
                     </button>
                     <NavLink to={"/login"}>
-                        <button onClick={setLogout} className="ms-10">
-                            <p className="bg-scroll p-2 w-10 rounded-md">EXIT</p> {/* DA METTERE IMMAGINE EXIT */}
+                        <button  onClick={setLogout} className="hover:scale-150 hover:duration-500 ms-10">
+                            <img className="bg-scroll p-2 w-10 rounded-md" src={logoutSVG} /> {/* DA METTERE IMMAGINE EXIT */}
                         </button>
                     </NavLink>
                     <NavLink to={"/userProfile"}>
-                        <button className="ms-10">
-                            <img className="bg-scroll p-2 w-10 rounded-md" src={userSVG} />
+                        <button className="hover:scale-150 hover:duration-500 ms-10">
+                            <img className="bg-scroll p-2 w-10 rounded-md" src={userSVG} /> 
                         </button>
                     </NavLink>
                 </div>

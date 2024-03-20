@@ -1,11 +1,14 @@
 <?php
 
+use App\Models\Chat;
+use App\Http\Resources\ChatResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\UserController;
+use App\Http\Resources\CharacterResource;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\CharacterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,12 +29,24 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::apiResource('users', UserController::class);
     Route::post('users/{user}/avatar', [UserController::class, 'uploadAvatar']);
-    Route::apiResource('characters', CharacterController::class);
+    Route::apiResource('characters', CharacterController::class)->except("index");
+    Route::get('characters', function () {
+        $character = Auth::user()->character;
+        return CharacterResource::collection($character);
+    });
+    Route::apiResource('chats',ChatController::class)->except("index")->except("show");
+    Route::get('chats', function () {
+        $chat = Auth::user()->chat;
+        return ChatResource::collection($chat);
+    });
+    Route::get('chats/{id}' , function ($id) {
+        $chat = Chat::find($id);
+       return response()->json($chat);;
+    });
+    
 });
 
 Route::post('/characters/{character}/upload-avatar', [CharacterController::class, 'uploadAvatar']);
 Route::post('/characters/{character}/remove-avatar', [CharacterController::class, 'removeAvatar']);
-Route::get('/chats', [ChatController::class, 'index']);
-Route::get('/chats/{id}', [ChatController::class, 'show']);
 Route::get('/chats/message', [MessageController::class, 'index']);
 

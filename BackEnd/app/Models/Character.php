@@ -19,7 +19,7 @@ class Character extends Model
 
     public function chat()
     {
-        return $this->belongsToMany(Chat::class);
+        return $this->belongsTo(Chat::class);
     }
 
     

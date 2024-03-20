@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthProvider';
 import { useForm } from 'react-hook-form';
 
@@ -27,6 +27,8 @@ export default function RegisterForm() {
 		return types;
 	}
 
+    const navigate = useNavigate();
+
 	const onSubmit = (formData) => {
 		fetcher(`${BACKEND_URL}/register`, {
 			method: "POST",
@@ -39,7 +41,7 @@ export default function RegisterForm() {
 			.then((response) => response.json())
 			.then((data) => {
 				if(!data.errors) {
-					setAsLogged(data.user, data["access_token"])
+                    navigate("/login")
 				} else {
 					Object.keys(data.errors).forEach(field => {
 						if(data.errors[field]) {

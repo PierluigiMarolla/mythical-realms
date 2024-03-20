@@ -92,13 +92,14 @@
 }
 
 .container-home {
-max-height: 80vh;
-height: 100vh;
+    max-height: 80vh;
+    height: 100vh;
 }
 
 .container-modal {
-    max-height: 55vh;
-    }
+    max-height: 75vh;
+    transform: translate(-50%, -60%);
+}
 
 .container-chat {
     max-height: 70vh;
@@ -143,9 +144,9 @@ height: 100vh;
     appearance: w;
     cursor: pointer;
     outline: none;
-  }
+}
 
-.character-select:hover  {
+.character-select:hover {
     appearance: none;
     cursor: pointer;
     outline: none;

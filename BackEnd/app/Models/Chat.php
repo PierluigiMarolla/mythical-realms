@@ -14,8 +14,7 @@ class Chat extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'users_id',
-        'characters_id',
+        'character_id',
         'title', 
         'logo_url',
     ];

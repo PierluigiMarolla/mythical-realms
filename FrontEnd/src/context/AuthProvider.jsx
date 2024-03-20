@@ -1,6 +1,5 @@
 import { createContext, useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -19,47 +18,30 @@ const AuthProvider = ({ children }) => {
 		user: null,
 	});
 
-	const [cookies, setCookie, removeCookie] = useCookies(["auth_token"]);
-
-	const getAuthCookieExpiration = () => {
-		let date = new Date();
-		date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days
-		return date;
-	};
-
 	const setAsLogged = (user, token) => {
-		setCookie("auth_token", token, {
-			path: "/",
-			expires: getAuthCookieExpiration(),
-			sameSite: "lax",
-			httpOnly: false,
-		});
+		localStorage.setItem("auth_token", token)
 		setUserData({ token: token, user });
 		navigate("/");
 	};
 
 	const setLogout = () => {
-		removeCookie("auth_token", {
-			path: "/",
-			expires: getAuthCookieExpiration(),
-			sameSite: "lax",
-			httpOnly: false,
-		});
+		localStorage.removeItem("auth_token")
 		setUserData({ token: "", user: null });
 		navigate("/login");
 	};
 
 	const loginUserOnStartup = () => {
-		if (cookies["auth_token"]) {
+		const token = localStorage.getItem("auth_token")
+		if (token) {
 			fetcher(`${BACKEND_URL}/user`, {
 				method: 'GET',
 				headers: {
-					Authorization: `Bearer ${cookies["auth_token"]}`,
+					Authorization: `Bearer ${token}`,
 				}
 			})
 				.then((response) => response.json())
 				.then((data) => {
-					setUserData({ token: cookies["auth_token"], user: data });
+					setUserData({ token, user: data });
 					navigate("/");
 				})
 				.catch((error) => {

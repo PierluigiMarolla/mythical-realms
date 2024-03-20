@@ -19,8 +19,8 @@ class ChatSeeder extends Seeder
         foreach ($users as $user) {
             foreach ($characters as $character) {
                 Chat::create([
-                    'users_id' => $user->id,
-                    'characters_id' => $character->id,
+                    'user_id' => $user->id,
+                    'character_id' => $character->id,
                     'title' => 'titolo di prova',
                     'logo_url' => 'https://via.placeholder.com/640x480.png/0033bb?text=voluptate',
                 ]);

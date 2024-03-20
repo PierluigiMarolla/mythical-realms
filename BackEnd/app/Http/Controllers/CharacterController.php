@@ -11,10 +11,10 @@ use App\Http\Resources\CharacterResource;
 
 class CharacterController extends Controller
 {
-    public function index()
+    public function index($request)
     {
-        $characters = Character::all();
-        return CharacterResource::collection($characters);
+        $character = $request->user()->character;
+        return CharacterResource::collection($character);
     }
 
     public function store(StoreCharactersRequest $request)

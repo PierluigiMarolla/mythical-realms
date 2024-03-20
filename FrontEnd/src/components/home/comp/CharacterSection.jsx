@@ -13,37 +13,28 @@ export default function CharacterSection() {
   const[ characters, setCharacters] = useState([]); 
 
   useEffect(() => {
-    fetch(`${BACKEND_URL}/characters`, {
-      headers: {
-        'Authorization': `Bearer ${userData.token}`
-      }
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Errore nella richiesta');
+    if(userData){
+      fetch(`${BACKEND_URL}/characters`, {
+        headers: {
+          'Authorization': `Bearer ${userData.token}`
         }
-        return response.json();
       })
-      .then(data => {
-        setCharacters(data);
-      }) 
-      .catch(error => {
-        console.log('Si è verificato un errore:', error);
-      });
-  }, []);
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Errore nella richiesta');
+          }
+          return response.json();
+        })
+        .then(data => {
+          setCharacters(data);
+        }) 
+        .catch(error => {
+          console.log('Si è verificato un errore:', error);
+        });
+    }
+  }, [userData]);
 
   let imageInitUrl = "http://localhost:8000"
-  let characterInfo = [] 
-
-  characters.forEach(element => {
-    if(element.user_id == userData.user.id){
-      characterInfo.push(element)
-      
-    }
-  });
- 
-
-  console.log(characterInfo) 
 
   console.log()
 
@@ -59,7 +50,7 @@ export default function CharacterSection() {
                     </NavLink> 
                 </div>
                 <div className="flex justify-around flex-wrap">
-                {characterInfo.map((character, index) =>(
+                {characters.map((character, index) =>(
                     <NavLink to={`/userCharacterEdit/${character.id}`}><CharacterCard key={character.id} ctrName={character.name} ctrAvatar={`${imageInitUrl}${character.avatar_url}`} /></NavLink>
                     ))}
                     

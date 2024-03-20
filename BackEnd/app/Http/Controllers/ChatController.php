@@ -3,18 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCharactersRequest;
+use App\Http\Requests\StoreChatRequest;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\CharacterResource;
+use App\Http\Resources\ChatResource;
 use App\Models\Chat;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
-    public function index()
+    public function index($request)
     {
-        $chat = Chat::all();
-        return response()->json($chat);
+        
+        $chat = $request->user()->chat;
+        return ChatResource::collection($chat);
     }
 
     public function show($id)
@@ -23,23 +27,17 @@ class ChatController extends Controller
        return response()->json($chat);
     }
 
-    /* public function store(StoreCharactersRequest $request)
+    public function store(StoreChatRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'avatar_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-        ]);
+        $filePath = $request->file('logo')->store('logo', 'public');
+        $ctData = $request->safe()->merge(["logo_url"=> $filePath])->except(["logo"]);
 
-        $imageName = Str::random(10) . '.' . $request->image->getClientOriginalExtension();
-        $request->image->storeAs('storage', $imageName, 'public');
-
-        $chat = Chat::create([
-            'name' => $request->name,
-            'avatar_url' => 'storage/' . $imageName,
-        ]);
-
-        return new CharacterResource($chat);
+        $chat = $request->user()->chat()->create($ctData);
+        
+        return new ChatResource($chat);
     }
+
+    /*
 
     public function uploadAvatar(Request $request, Chat $chat)
     {
