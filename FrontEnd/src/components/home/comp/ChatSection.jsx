@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-export default function ChatSection() {
+export default function ChatSection({ sharedValue }) {
     
     const { userData } = useAuth()
 
@@ -33,7 +33,7 @@ useEffect(() => {
           console.log('Si è verificato un errore:', error);
         });
     }
-  }, [userData]);
+  }, [userData, sharedValue]);
 
 
   let imageInitUrl = "http://localhost:8000"

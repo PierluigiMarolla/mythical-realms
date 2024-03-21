@@ -22,7 +22,7 @@ export default function Home() {
       <Modal sharedValue={sharedValue} handleChange={handleChange} />
       <Header handleChange={handleChange} />
       <div className='flex flex-col md:flex-row justify-around'>
-        <ChatSection></ChatSection>
+        <ChatSection sharedValue={sharedValue}></ChatSection>
         <CharacterSection></CharacterSection>
       </div>
     </div>

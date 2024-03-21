@@ -11,6 +11,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 export default function Modal({ sharedValue, handleChange }) {
 
     const { userData, fetcher } = useAuth()
+    
 
     const handleButtonClick = () => {
         handleChange(false)
@@ -18,14 +19,36 @@ export default function Modal({ sharedValue, handleChange }) {
 
     const [logo, setLogo] = useState()
     const [selectCtr, setSelectCtr] = useState()
+    const [checkTitle, setCheckTitle] = useState(false)
+    const [checkCharacter, setCheckCharacter] = useState(false)
+    const [checkImage, setCheckImage] = useState(false)
+
+
+    function handleClickTitle(event) {
+        if (event.target.value) {
+            setCheckTitle(false)
+        } else {
+            setCheckTitle(true)
+        }
+    }
+
+    function handleClickCharacter(event) {
+        if (!event.target.value == 0) {
+            setCheckCharacter(false)
+        } else {
+            setCheckCharacter(true)
+        }
+    }
 
     function handleOnChangeSelect(event) {
         setSelectCtr(event.target.value)
     }
 
+    let file 
+
 
     const handleFileChange = (event) => {
-        const file = event.target.files[0];
+        file = event.target.files[0];
         setLogo(file)
         if (file) {
             const reader = new FileReader();
@@ -69,36 +92,40 @@ export default function Modal({ sharedValue, handleChange }) {
             selectCtr
         )
 
-        fetcher(`${BACKEND_URL}/chats`, {
-            headers: {
-                'Authorization': `Bearer ${userData.token}`
-            },
-            method: 'POST',
-            body: chatFormData,
-        })
-
-            .then((response) => response.json())
-            .then((data) => {
-                if (!data.errors) {
-                } else {
-                    Object.keys(data.errors).forEach(field => {
-                        if (data.errors[field]) {
-                            setError(field, {
-                                types: getErrorTypes(data.errors[field])
-                            })
-                        }
-                    })
-                }
+        console.log(checkImage && checkTitle && checkCharacter)
+        if(checkImage == false && checkTitle == false && checkCharacter == false){
+            fetcher(`${BACKEND_URL}/chats`, {
+                headers: {
+                    'Authorization': `Bearer ${userData.token}`
+                },
+                method: 'POST',
+                body: chatFormData,
             })
-            .catch((err) => {
-                console.log(err);
-            });
+    
+                .then((response) => response.json())
+                .then((data) => {
+                    if (!data.errors) {
+                        handleChange(false)
+                    } else {
+                        Object.keys(data.errors).forEach(field => {
+                            if (data.errors[field]) {
+                                setError(field, {
+                                    types: getErrorTypes(data.errors[field])
+                                })
+                            }
+                        })
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     };
 
     const [characters, setCharacters] = useState([])
 
     useEffect(() => {
-        if(userData && userData.token !== undefined) {
+        if (userData && userData.token !== undefined) {
             fetch(`${BACKEND_URL}/characters`, {
                 headers: {
                     'Authorization': `Bearer ${userData.token}`
@@ -127,6 +154,9 @@ export default function Modal({ sharedValue, handleChange }) {
         }
     });
 
+
+    /* console.log(checkCharacter) */
+
     return (
         <>
             <div className={`absolute left-1/2 z-50 modal block w-screen h-full bg-black bg-opacity-75 ${sharedValue ? 'block' : 'hidden'}`}>
@@ -148,9 +178,12 @@ export default function Modal({ sharedValue, handleChange }) {
                                             name="avatar_url"
                                             id="fileInput"
                                             onChange={handleFileChange} />
+                                        {checkImage &&
+                                            <div><label className="text-red text-xs text-center">Username is required</label></div>
+                                        }
                                         <div className="flex justify-between items-center">
                                             <label htmlFor="fileInput" className="h-12 bg-ancient p-3 rounded-full text-white border border-black">Upload Character's Avatar</label>
-                                            {filePreview && <img src={filePreview} className="bg-ancient border-2 w-52" alt="Prewiew" />}
+                                            {filePreview && <div className="w-32 max-h-28 overflow-y-hidden"><img src={filePreview} className="bg-ancient border-2 w-52" alt="Prewiew" /></div>}
                                         </div>
                                     </div>
                                 </div>
@@ -161,15 +194,18 @@ export default function Modal({ sharedValue, handleChange }) {
                                     </label >
                                     <select
                                         onChange={handleOnChangeSelect}
+                                        onSubmit={handleClickCharacter}
                                         className="w-full h-8 rounded-full px-2 outline-none focus:border"
                                         name="character_id">
-                                        <option className="bg-ancient" value="0">Select Character Name</option>
                                         {characterInfo && characterInfo.map((crt, index) => (
                                             <option className="bg-ancient" key={index} value={`${crt.id}`}>{`${crt.name}`}</option>
                                         ))
 
                                         }
                                     </select>
+                                    {checkCharacter &&
+                                        <div><label className="text-red text-xs text-center">Username is required</label></div>
+                                    }
                                 </div>
                                 <div className="my-2 py-3 items-center">
                                     <label
@@ -181,7 +217,11 @@ export default function Modal({ sharedValue, handleChange }) {
                                         name="name"
                                         className="w-full h-8 rounded-full px-2 outline-none focus:border"
                                         placeholder="Insert a Title"
-                                        type="text" />
+                                        type="text"
+                                        onBlur={handleClickTitle} />
+                                    {checkTitle &&
+                                        <div><label className="text-red text-xs text-center">Username is required</label></div>
+                                    }
                                 </div>
 
                             </div>

@@ -42,7 +42,7 @@ export default function CharacterSection() {
         <div className="flex  justify-between bg-scroll px-5 items-center py-2">
           <p className="text-3xl cinzel">Character</p>
           <NavLink to={"/userCharacterAdd"}>
-            <button>
+            <button className="">
               <img className="bg-ancient p-2 w-10 rounded-md border border-ancient" src={plusSVG} />
             </button>
           </NavLink>

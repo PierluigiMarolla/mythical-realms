@@ -106,7 +106,7 @@ export default function UserCharacterAdd() {
                                             onChange={handleFileChange} />
                                         <div className="flex justify-between items-center">
                                             <label htmlFor="fileInput" className="h-12 bg-ancient p-3 rounded-full text-white border border-black">Upload Character's Avatar</label>
-                                            {filePreview && <img src={filePreview} className="bg-ancient border-2" alt="Prewiew" />}
+                                            {filePreview && <div className="w-36"><img src={filePreview} className="bg-ancient border-2" alt="Prewiew" /></div>}
                                         </div>
                                     </div>
                                 </div>

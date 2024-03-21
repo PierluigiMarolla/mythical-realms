@@ -10,6 +10,7 @@ export default {
       ancient: '#8b7455',
       scroll: '#e4bf8a',
       red: 'red',
+      "red-50" : '#ff00008c',
       white: 'white',
       black: 'black',
       blue: 'blue',

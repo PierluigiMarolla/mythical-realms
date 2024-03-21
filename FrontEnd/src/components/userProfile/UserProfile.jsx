@@ -16,6 +16,9 @@ export default function UserProfile() {
     const [isClickedPwd, setIsClickedPwd] = useState(false)
     const [editUsername, setEditUsername] = useState()
     const [editEmail, setEditEmail] = useState()
+    const [checkUsername, setCheckUsername] = useState(false)
+    const [checkEmail, setCheckEmail] = useState(false)
+    const [checkPwd, setCheckPwd] = useState(false)
 
 
     useEffect(() => {
@@ -28,16 +31,17 @@ export default function UserProfile() {
         setIsClickedUsername(false)
         setIsClickedEmail(false)
         setIsClickedPwd(false)
+        setCheckUsername(false)
+        setCheckEmail(false)
+        setCheckPwd(false)
         setEditUsername(userData.user.name)
         setEditEmail(userData.user.email)
     }
 
-    function handleUpdateClick(event) {
-        setIsClicked(false)
-    }
+
 
     function handleUpdateClickUsername() {
-        if(isClickedUsername){
+        if (isClickedUsername) {
             setIsClickedUsername(false)
         } else {
             setIsClickedUsername(true)
@@ -45,7 +49,7 @@ export default function UserProfile() {
     }
 
     function handleUpdateClickEmail(event) {
-        if(isClickedEmail){
+        if (isClickedEmail) {
             setIsClickedEmail(false)
         } else {
             setIsClickedEmail(true)
@@ -53,44 +57,67 @@ export default function UserProfile() {
     }
 
     function handleUpdateClickPwd(event) {
-        if(isClickedPwd){
+        if (isClickedPwd) {
             setIsClickedPwd(false)
         } else {
             setIsClickedPwd(true)
         }
     }
 
+    
+
     const onSubmit = (dataOfUser) => {
 
-        fetcher(`${BACKEND_URL}/users/${userData.user.id}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${userData.token}`,
-                "Content-type": "application/json",
-                Accept: "application/json",
-            },
-            body: JSON.stringify(dataOfUser),
-        })
-
-            .then((response) => response.json())
-            .then((data) => {
-                setLogout()
-                if (!data.errors) {
-
-                } else {
-                    Object.keys(data.errors).forEach(field => {
-                        if (data.errors[field]) {
-                            setError(field, {
-                                types: getErrorTypes(data.errors[field])
-                            })
-                        }
-                    })
-                }
+        if (checkUsername && checkEmail && checkPwd) {
+            fetcher(`${BACKEND_URL}/users/${userData.user.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${userData.token}`,
+                    "Content-type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify(dataOfUser),
             })
-            .catch((err) => {
-                console.log(err);
-            });
+
+                .then((response) => response.json())
+                .then((data) => {
+                    setLogout()
+                    if (!data.errors) {
+
+                    } else {
+                        Object.keys(data.errors).forEach(field => {
+                            if (data.errors[field]) {
+                                setError(field, {
+                                    types: getErrorTypes(data.errors[field])
+                                })
+                            }
+                        })
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     };
+
+
+
+
+    function controlName(event) {
+        if (event.target.value == "" | event.target.value == undefined | event.target.value == null) {
+            setCheckUsername(true)
+        }
+    }
+    function controlEmail(event) {
+        if (event.target.value == "" | event.target.value == undefined | event.target.value == null) {
+            setCheckEmail(true)
+        }
+    }
+    function controlPwd(event) {
+        if (event.target.value == "" | event.target.value == undefined | event.target.value == null) {
+            setCheckPwd(true)
+        }
+    }
 
 
     return (
@@ -106,7 +133,11 @@ export default function UserProfile() {
                                     <p className="text-2xl medievalsharp-bold ">Username:</p>
                                     <p className={`${isClickedUsername ? "hidden" : ""}`} >{editUsername}</p>
                                     {isClickedUsername &&
-                                        <input  {...register("name", { required: 'Name is required' })} name="name" className="w-full h-8 rounded-full px-2 outline-none focus:border" type="text" />
+                                        <input  {...register("name", { required: 'Name is required' })} onChange={controlName} onBlur={controlName} name="name" className="w-full h-8 rounded-full px-2 outline-none focus:border" type="text" />
+
+                                    }
+                                    {checkUsername &&
+                                        <div><label className="text-red text-xs text-center">Username is required</label></div>
                                     }
                                     {!isClickedUsername &&
                                         <button type="submit" onClick={handleUpdateClickUsername} className="bg-ancient border border-black w-1/4 self-center p-1 mt-2 rounded-full">Update</button>
@@ -119,7 +150,10 @@ export default function UserProfile() {
                                     <p className="text-2xl medievalsharp-bold">Email:</p>
                                     <p className={`${isClickedEmail ? "hidden" : ""}`} >{editEmail}</p>
                                     {isClickedEmail &&
-                                        <input  {...register("email", { required: 'Email is required' })} name="email" className="w-full h-8 rounded-full px-2 outline-none focus:border" type="text" />
+                                        <input  {...register("email", { required: 'Email is required' })} onChange={controlEmail} onBlur={controlEmail} name="email" className="w-full h-8 rounded-full px-2 outline-none focus:border" type="text" />
+                                    }
+                                    {checkEmail &&
+                                        <div><label className="text-red text-xs text-center">Email is required</label></div>
                                     }
                                     {!isClickedEmail &&
                                         <button type="submit" onClick={handleUpdateClickEmail} className="bg-ancient border border-black w-1/4 self-center p-1 mt-2 rounded-full">Update</button>
@@ -132,7 +166,10 @@ export default function UserProfile() {
                                     <p className="text-2xl medievalsharp-bold">Password:</p>
                                     <p className={`${isClickedPwd ? "hidden" : ""}`} >***************</p>
                                     {isClickedPwd &&
-                                        <input {...register("password", { required: 'Password is required' })} name="password" className="w-full h-8 rounded-full px-2 outline-none focus:border" type="text" />
+                                        <input {...register("password", { required: 'Password is required' })} onChange={controlPwd} onBlur={controlPwd} name="password" className="w-full h-8 rounded-full px-2 outline-none focus:border" type="text" />
+                                    }
+                                    {checkPwd &&
+                                        <div><label className="text-red text-xs text-center">Password is required</label></div>
                                     }
                                     {!isClickedPwd &&
                                         <button type="submit" onClick={handleUpdateClickPwd} className="bg-ancient border border-black w-1/4 self-center p-1 mt-2 rounded-full">Update</button>
@@ -144,9 +181,9 @@ export default function UserProfile() {
                             </div>
                             {(isClickedUsername || isClickedEmail || isClickedPwd) &&
                                 <div className="flex justify-between">
-                                <button onClick={handleBackClick} className="bg-ancient border border-black w-1/3 self-center p-2 rounded-full ">Back</button>
-                                <button type="submit" onClick={handleUpdateClick} className="bg-ancient border border-black w-1/3 self-center p-2 rounded-full">Update</button>
-                            </div>
+                                    <button onClick={handleBackClick} className="bg-ancient border border-black w-1/3 self-center p-2 rounded-full ">Back</button>
+                                    <button type="submit" className="bg-ancient border border-black w-1/3 self-center p-2 rounded-full">Update</button>
+                                </div>
                             }
                             {!(isClickedUsername || isClickedEmail || isClickedPwd) &&
                                 <NavLink to="/" className={"self-center"} ><button className="bg-ancient border border-black p-2 rounded-full mt-3 ">Back to Home</button></NavLink>
