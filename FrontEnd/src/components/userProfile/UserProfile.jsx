@@ -68,7 +68,7 @@ export default function UserProfile() {
 
     const onSubmit = (dataOfUser) => {
 
-        if (checkUsername && checkEmail && checkPwd) {
+        
             fetcher(`${BACKEND_URL}/users/${userData.user.id}`, {
                 method: 'PUT',
                 headers: {
@@ -97,7 +97,6 @@ export default function UserProfile() {
                 .catch((err) => {
                     console.log(err);
                 });
-        }
     };
 
 
@@ -133,7 +132,7 @@ export default function UserProfile() {
                                     <p className="text-2xl medievalsharp-bold ">Username:</p>
                                     <p className={`${isClickedUsername ? "hidden" : ""}`} >{editUsername}</p>
                                     {isClickedUsername &&
-                                        <input  {...register("name", { required: 'Name is required' })} onChange={controlName} onBlur={controlName} name="name" className="w-full h-8 rounded-full px-2 outline-none focus:border" type="text" />
+                                        <input  {...register("name", { required: 'Name is required' })} name="name" className="w-full h-8 rounded-full px-2 outline-none focus:border" type="text" />
 
                                     }
                                     {checkUsername &&
@@ -150,7 +149,7 @@ export default function UserProfile() {
                                     <p className="text-2xl medievalsharp-bold">Email:</p>
                                     <p className={`${isClickedEmail ? "hidden" : ""}`} >{editEmail}</p>
                                     {isClickedEmail &&
-                                        <input  {...register("email", { required: 'Email is required' })} onChange={controlEmail} onBlur={controlEmail} name="email" className="w-full h-8 rounded-full px-2 outline-none focus:border" type="text" />
+                                        <input  {...register("email", { required: 'Email is required' })} name="email" className="w-full h-8 rounded-full px-2 outline-none focus:border" type="text" />
                                     }
                                     {checkEmail &&
                                         <div><label className="text-red text-xs text-center">Email is required</label></div>
@@ -166,7 +165,7 @@ export default function UserProfile() {
                                     <p className="text-2xl medievalsharp-bold">Password:</p>
                                     <p className={`${isClickedPwd ? "hidden" : ""}`} >***************</p>
                                     {isClickedPwd &&
-                                        <input {...register("password", { required: 'Password is required' })} onChange={controlPwd} onBlur={controlPwd} name="password" className="w-full h-8 rounded-full px-2 outline-none focus:border" type="text" />
+                                        <input {...register("password", { required: 'Password is required' })}  name="password" className="w-full h-8 rounded-full px-2 outline-none focus:border" type="text" />
                                     }
                                     {checkPwd &&
                                         <div><label className="text-red text-xs text-center">Password is required</label></div>

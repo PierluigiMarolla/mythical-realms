@@ -11,10 +11,6 @@ export default function RegisterForm() {
     const { fetcher, setAsLogged } = useAuth();
 
 
-    const [registerErr, setRegisterErr] = useState(false)
-
-
-
 	const {
 		register,
 		handleSubmit,
@@ -62,18 +58,33 @@ export default function RegisterForm() {
 			});
 	};
 
-    const [pwdCheck, setPwdCheck] = useState()
+    const [pwdCheck, setPwdCheck] = useState("")
     const [pwdConfCheck, setPwdConfCheck] = useState()
+    const [check, setCheck] = useState(false)
+    const [checkConf, setCheckConf] = useState(false)
 
     function handlePasswordChange (event){
         setPwdCheck(event.target.value)
+
+        if(pwdCheck.length < 8){
+            setCheck(true)
+        } else (
+            setCheck(false)
+        )
     }
 
     function handlePasswordConfChange (event){
         setPwdConfCheck(event.target.value)
+
+        if(!(pwdCheck == pwdConfCheck)){
+            setCheckConf(true)
+        } else (
+            setCheckConf(false)
+        )
     } 
 
-    console.log(pwdCheck)
+
+    console.log(pwdCheck == pwdConfCheck)
     
 
     return (
@@ -116,15 +127,18 @@ export default function RegisterForm() {
                     {...register("password", {
                         required: 'Field "Password" is required',
                     })}
+                    name="password"
                     placeholder='Insert your Password'
                     className='my-2 rounded-xl h-7 leading-7 focus:outline-none focus:border focus:border-ancient ps-1'
                     onChange={handlePasswordChange}
+                    onFocus={handlePasswordChange}
+                    
                     type="password"
-                    name="password" />
+                     />
                     {errors.password &&
                         <label className="text-red text-xs text-center">Password is required</label>
                     }
-                    {pwdCheck.length < 8 &&
+                    {check &&
                         <label className="text-red text-xs text-center">The password must be 8 or more character longer</label>
                     }
                 <label 
@@ -139,6 +153,8 @@ export default function RegisterForm() {
                     className='my-2 rounded-xl h-7 leading-7 focus:outline-none focus:border focus:border-ancient ps-1'
                     placeholder='Confirm your Password'
                     onChange={handlePasswordConfChange}
+                    onFocus={handlePasswordConfChange}
+                    
                     type="password"
                     name="password_confirmation" />
                     {errors.password_confirmation &&
@@ -149,7 +165,7 @@ export default function RegisterForm() {
                     type="submit">
                     Register
                 </button>
-                {!(pwdCheck == pwdConfCheck) &&
+                {checkConf &&
                         <label className="text-red text-xs text-center mt-2">Warning: The Password don't match</label>
                     }
                 <NavLink className="text-center text-ancient mt-3" to={"/login"}>You have already registered? click here to login!</NavLink>
