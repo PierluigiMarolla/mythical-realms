@@ -1,16 +1,18 @@
 import OtherUserMessage from "./OtherUserMessage.jsx"
 import UserMessage from "./UserMessage.jsx"
 import sendSVG from "../../../assets/svg/sendSVG.svg"
-import { useParams } from "react-router-dom"
+import { NavLink, useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthProvider.jsx";
+import logoutSVG from "../../../assets/svg/logout-solid.svg";
+import homeSVG from "../../../assets/svg/home-solid.svg";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 
 export default function Chat() {
 
     const { id } = useParams();
-    const { userData } = useAuth();
+    const { userData, setLogout } = useAuth();
     const [chatID, setChatID] = useState()
     const [effettoEseguito, setEffettoEseguito] = useState(0);
     const [effettoEseguito2, setEffettoEseguito2] = useState(0);
@@ -83,7 +85,7 @@ export default function Chat() {
         }
     })
 
-    
+
 
 
     /* //////////////////////////////////// */
@@ -93,7 +95,8 @@ export default function Chat() {
     const [showFirstMessage, setShowFirstMessage] = useState(false)
     const [inputValue, setInputValue] = useState("")
     const [controllerInput, setcontrollerInput] = useState(1)
-    const [messageList, setMessageList] = useState([])
+    const [messageListUser, setMessageListUser] = useState([])
+    const [messageListNarrator, setMessageListNarrator] = useState([])
     const [endRole, setEndRole] = useState(false)
 
     useEffect(() => {
@@ -102,17 +105,17 @@ export default function Chat() {
 
     const narratorIntro = `Nella Foresta Incantata, ${crt.name} si trova immerso in un luogo avvolto da un'atmosfera magica e misteriosa. Gli alberi millenari si ergono imponenti, le foglie sembrano brillare di luce propria e creature mai viste si muovono tra i cespugli. ${crt.name} avverte una sensazione di meraviglia e timore di fronte a tanta bellezza e potenza magica.`
 
-    
+
 
     function handleOnChange(event) {
         setInputValue(event.target.value);
     }
 
-    const bivio_1 = `Esplora la foresta in cerca di indizi sul luogo in cui potrebbe trovarsi la Spada. Dopo aver scelto di addentrarsi nella foresta, ${crt.name} si avventura tra gli alberi millenari e le creature magiche. Mentre procede con cautela, scopre antichi simboli incisi sui tronchi e misteriose incisioni che sembrano narrare la storia della Spada Leggendaria. Tuttavia, il percorso si fa sempre più intricato e pericoloso, e ${crt.name} si rende conto di essere seguito da occhi scrutatori che lo osservano dall'ombra.`
-    const bivio_2 = `Dopo aver superato con l'aiuto delle creature guardiane gli ostacoli che si frapponevano tra lui e la Spada Leggendaria, ${crt.name} si ritrova in un'ampia radura al centro della Foresta Incantata. Qui, davanti a lui, si erge una maestosa cascata d'acqua cristallina, circondata da fiori dai colori vivaci e da una luce dorata che sembra provenire dal cielo stesso.`
-    const bivio_3 = `Mentre ${crt.name} esplora l'area circostante alla cascata, scopre una serie di antichi simboli incisi sulle rocce vicine. Questi simboli sembrano indicare un sentiero nascosto dietro la cascata stessa, un luogo che potrebbe nascondere un'importante tappa nella sua ricerca della Spada Leggendaria.`
-    const bivio_4 = `Mentre ${crt.name} si addentra nel sentiero dietro la cascata, scopre un'antica grotta nascosta dietro il velo d'acqua. La luce riflessa dalla cascata crea un'atmosfera magica all'interno della grotta, illuminando antichi disegni sulle pareti e rivelando un'aria di mistero e potere che permea l'ambiente. Dentro la grotta, ${crt.name} si imbatte in un'antica pergamena dall'aspetto incredibilmente antico, decorata con simboli misteriosi. Mentre la studia con attenzione, una voce risuona nell'aria, sussurrando antiche profezie e indicazioni sulla vera natura della Spada Leggendaria.`
-    const bivio_5 = `Mentre ${crt.name} si concentra sulla decifrazione delle profezie e delle indicazioni sulla pergamena, inizia a emergere un racconto antico che parla della nascita della Spada Leggendaria. Le profezie suggeriscono che l'arma è stata forgiata secoli fa da un abile fabbro, impegnato in un'epica missione per sconfiggere un male antico che minacciava il mondo intero. La Spada Leggendaria, infusa con poteri magici e virtù straordinarie, è stata nascosta in un luogo segreto per preservarla dalla malvagità. Continuando la lettura, ${crt.name} scopre che la posizione esatta della Spada è stata protetta da incantesimi potenti e indistruttibili, resi inaccessibili a coloro che non dimostrano una volontà pura e il coraggio necessario per affrontare il suo potere.`
+    const bivio_1 = `Esplora la foresta in cerca di indizi sul luogo in cui potrebbe trovarsi la Spada. Dopo aver scelto di addentrarsi nella foresta, ${crt.name} si avventura tra gli alberi millenari e le creature magiche. Mentre procede con cautela, scopre antichi simboli incisi sui tronchi e misteriose incisioni che sembrano narrare la storia della Spada Leggendaria. Tuttavia, il percorso si fa sempre più intricato e pericoloso, e ${crt.name} si rende conto di essere seguito da occhi scrutatori che lo osservano dall'ombra. SCELTA 1: Decido di affrontare gli occhi scrutatori. SCELTA 2: Decido di affrontare gli occhi scrutatori.`
+    const bivio_2 = `Dopo aver superato con l'aiuto delle creature guardiane gli ostacoli che si frapponevano tra lui e la Spada Leggendaria, ${crt.name} si ritrova in un'ampia radura al centro della Foresta Incantata. Qui, davanti a lui, si erge una maestosa cascata d'acqua cristallina, circondata da fiori dai colori vivaci e da una luce dorata che sembra provenire dal cielo stesso. SCELTA 1: Decido di esplorare il sentiero dietro la cascata. Decido di consultare le creature guardiane della foresta SCELTA 2: Decido di decifrare le profezie e le indicazioni sulla pergamena.`
+    const bivio_3 = `Mentre ${crt.name} esplora l'area circostante alla cascata, scopre una serie di antichi simboli incisi sulle rocce vicine. Questi simboli sembrano indicare un sentiero nascosto dietro la cascata stessa, un luogo che potrebbe nascondere un'importante tappa nella sua ricerca della Spada Leggendaria. SCELTA 1: Decido di esplorare il sentiero dietro la cascata. SCELTA 2: Decido di tornare all'aperto e condividere le mie scoperte con gli abitanti del villaggio, sperando che possano offrirmi ulteriori informazioni o consigli sulla prossima tappa della mia ricerca.`
+    const bivio_4 = `Mentre ${crt.name} si addentra nel sentiero dietro la cascata, scopre un'antica grotta nascosta dietro il velo d'acqua. La luce riflessa dalla cascata crea un'atmosfera magica all'interno della grotta, illuminando antichi disegni sulle pareti e rivelando un'aria di mistero e potere che permea l'ambiente. Dentro la grotta, ${crt.name} si imbatte in un'antica pergamena dall'aspetto incredibilmente antico, decorata con simboli misteriosi. Mentre la studia con attenzione, una voce risuona nell'aria, sussurrando antiche profezie e indicazioni sulla vera natura della Spada Leggendaria. SCELTA 1: Decido di decifrare le profezie e le indicazioni sulla pergamena Scelta 2: Decido di indagare sui simboli incisi sulle rocce.`
+    const bivio_5 = `Mentre ${crt.name} si concentra sulla decifrazione delle profezie e delle indicazioni sulla pergamena, inizia a emergere un racconto antico che parla della nascita della Spada Leggendaria. Le profezie suggeriscono che l'arma è stata forgiata secoli fa da un abile fabbro, impegnato in un'epica missione per sconfiggere un male antico che minacciava il mondo intero. La Spada Leggendaria, infusa con poteri magici e virtù straordinarie, è stata nascosta in un luogo segreto per preservarla dalla malvagità. Continuando la lettura, ${crt.name} scopre che la posizione esatta della Spada è stata protetta da incantesimi potenti e indistruttibili, resi inaccessibili a coloro che non dimostrano una volontà pura e il coraggio necessario per affrontare il suo potere. SCELTA 1: Decido di cercare il luogo segreto indicato dalle profezie. SCELTA 2: Decido di consultare le creature guardiane della foresta.`
     const bivio_6 = `${crt.name} decide di dedicare del tempo all'esame attento dei disegni sulle pareti della grotta. Mentre osserva con attenzione ogni dettaglio, scopre rappresentazioni antiche e significative legate all'arma leggendaria. Le immagini raccontano storie di valorosi guerrieri, mitici combattimenti e la gloria della Spada Leggendaria, offrendo preziosi indizi sul suo potere e sulla sua storia millenaria.`
     const bivio_7 = `Dopo aver deciso di indagare sui simboli incisi sulle rocce, ${crt.name} si avventura più in profondità nel bosco, seguendo il sentiero che sembra condurlo verso una radura nascosta. Qui, tra alberi secolari e un'atmosfera carica di mistero, si imbatte in un antico altare di pietra, decorato con simboli runici e segni arcani. A questo ${crt.name} decide di avvicinarsi all'antico altare di pietra e studiarne attentamente i simboli incisi. Mentre si concentra sui dettagli, avverte una strana sensazione di energia che sembra emanare dall'antica struttura. Improvvisamente, i simboli iniziano a risplendere di una luce misteriosa, e ${crt.name} si ritrova avvolto da un'aura di potere antico. A questo punto, potrebbe sorgere una nuova scelta per ${crt.name}, che potrebbe decidere di:`
     const bivio_8 = `Dopo aver deciso di resistere all'energia e cercare di comprendere il significato dei simboli, ${crt.name} sente una connessione profonda con l'antico altare. Mentre studia i simboli incisi, le visioni nella sua mente diventano sempre più chiare, rivelando segreti antichi e profezie misteriose. Tuttavia, l'energia che lo avvolge diventa sempre più intensa, mettendo alla prova la sua resistenza.`
@@ -154,89 +157,121 @@ export default function Chat() {
     function handleOnSubmit(event) {
         event.preventDefault();
         setcontrollerInput(prev => prev + 1)
-        console.log(inputValue)
 
         if (controllerInput == 1 && (inputValue == 1 || inputValue == scelta_1 || inputValue == "scelta 1")) {
-            setMessageList([...messageList, scelta_1, bivio_2])
+            setMessageListUser([...messageListUser, scelta_1])
+            setMessageListNarrator([...messageListNarrator, bivio_2])
         }
         else if (controllerInput == 2 && (inputValue == 1 || inputValue == scelta_2 || inputValue == "scelta 1")) {
-            setMessageList([...messageList, scelta_2, bivio_3])
+            setMessageListUser([...messageListUser, scelta_2])
+            setMessageListNarrator([...messageListNarrator, bivio_3])
         }
         else if (controllerInput == 3 && (inputValue == 1 || inputValue == scelta_3 || inputValue == "scelta 1")) {
-            setMessageList([...messageList, scelta_3, bivio_4])
+            setMessageListUser([...messageListUser, scelta_3])
+            setMessageListNarrator([...messageListNarrator, bivio_4])
         }
         else if (controllerInput == 4 && (inputValue == 1 || inputValue == scelta_4 || inputValue == "scelta 1")) {
-            setMessageList([...messageList, scelta_4, , bivio_5])
+            setMessageListUser([...messageListUser, scelta_4])
+            setMessageListNarrator([...messageListNarrator, bivio_5])
         }
         else if (controllerInput == 5 && (inputValue == 1 || inputValue == scelta_5 || inputValue == "scelta 1")) {
-            setMessageList([...messageList, scelta_4, finale_1])
+            setMessageListUser([...messageListUser, scelta_4])
+            setMessageListNarrator([...messageListNarrator, finale_1])
             setEndRole(true)
         }
         else if (controllerInput == 5 && (inputValue == 2 || inputValue == scelta_6 || inputValue == "scelta 2")) {
-            setMessageList([...messageList, scelta_5, finale_2])
+            setMessageListUser([...messageListUser, scelta_5])
+            setMessageListNarrator([...messageListNarrator, finale_2])
             setEndRole(true)
         }
         else if (controllerInput == 4 && (inputValue == 2 || inputValue == scelta_7 || inputValue == "scelta 2")) {
-            setMessageList([...messageList, scelta_7, bivio_6])
+            setMessageListUser([...messageListUser, scelta_7])
+            setMessageListNarrator([...messageListNarrator, bivio_6])
             setcontrollerInput(7)
         }
         else if (controllerInput == 8 && (inputValue == 1 || inputValue == scelta_8 || inputValue == "scelta 1")) {
-            setMessageList([...messageList, scelta_8, finale_3])
+            setMessageListUser([...messageListUser, scelta_8])
+            setMessageListNarrator([...messageListNarrator, finale_3])
             setEndRole(true)
         }
         else if (controllerInput == 8 && (inputValue == 2 || inputValue == scelta_9 || inputValue == "scelta 2")) {
-            setMessageList([...messageList, scelta_9, finale_4])
+            setMessageListUser([...messageListUser, scelta_9])
+            setMessageListNarrator([...messageListNarrator, finale_4])
             setEndRole(true)
         }
         else if (controllerInput == 3 && (inputValue == 2 || inputValue == scelta_10 || inputValue == "scelta 2")) {
-            setMessageList([...messageList, scelta_10, bivio_7])
+            setMessageListUser([...messageListUser, scelta_10])
+            setMessageListNarrator([...messageListNarrator, bivio_7])
             setcontrollerInput(9)
             setEndRole(true)
         }
         else if (controllerInput == 10 && (inputValue == 1 || inputValue == scelta_11 || inputValue == "scelta 1")) {
-            setMessageList([...messageList, scelta_11, bivio_8])
+            setMessageListUser([...messageListUser, scelta_11])
+            setMessageListNarrator([...messageListNarrator, bivio_8])
         }
         else if (controllerInput == 11 && (inputValue == 1 || inputValue == scelta_12 || inputValue == "scelta 1")) {
-            setMessageList([...messageList, scelta_12, finale_5])
+            setMessageListUser([...messageListUser, scelta_12])
+            setMessageListNarrator([...messageListNarrator, finale_5])
             setEndRole(true)
         }
         else if (controllerInput == 11 && (inputValue == 2 || inputValue == scelta_13 || inputValue == "scelta 2")) {
-            setMessageList([...messageList, scelta_13, finale_6])
+            setMessageListUser([...messageListUser, scelta_13])
+            setMessageListNarrator([...messageListNarrator, finale_6])
             setEndRole(true)
         }
         else if (controllerInput == 2 && (inputValue == 2 || inputValue == scelta_14 || inputValue == "scelta 2")) {
-            setMessageList([...messageList, scelta_14, bivio_9])
+            setMessageListUser([...messageListUser, scelta_14])
+            setMessageListNarrator([...messageListNarrator, bivio_9])
             setcontrollerInput(12)
         }
         else if (controllerInput == 13 && (inputValue == 2 || inputValue == scelta_15 || inputValue == "scelta 2")) {
-            setMessageList([...messageList, scelta_15, bivio_9])
+            setMessageListUser([...messageListUser, scelta_15])
+            setMessageListNarrator([...messageListNarrator, bivio_10])
         }
         else if (controllerInput == 14 && (inputValue == 1 || inputValue == scelta_16 || inputValue == "scelta 1")) {
-            setMessageList([...messageList, scelta_16, bivio_10])
+            setMessageListUser([...messageListUser, scelta_16])
+            setMessageListNarrator([...messageListNarrator, bivio_11])
         }
         else if (controllerInput == 15 && (inputValue == 1 || inputValue == scelta_17 || inputValue == "scelta 1")) {
-            setMessageList([...messageList, scelta_17, bivio_11])
+            setMessageListUser([...messageListUser, scelta_17])
+            setMessageListNarrator([...messageListNarrator, finale_7])
         }
         else if (controllerInput == 16 && (inputValue == 1 || inputValue == scelta_18 || inputValue == "scelta 1")) {
-            setMessageList([...messageList, scelta_18, finale_7])
-            setEndRole(true)
-        }
-        else if (controllerInput == 16 && (inputValue == 2 || inputValue == scelta_19 || inputValue == "scelta 2")) {
-            setMessageList([...messageList, scelta_19, finale_8])
+            setMessageListUser([...messageListUser, scelta_18])
+            setMessageListNarrator([...messageListNarrator, finale_8])
             setEndRole(true)
         }
     }
 
-    
 
-    console.log(controllerInput)
-    console.log(messageList)
+    const combinedMessages = [];
+
+messageListUser.forEach((messageUser, index) => {
+  combinedMessages.push(
+    <UserMessage
+      key={`user_${index}`}
+      cAvatar={`${imageInitUrl}${crt.avatar_url}`}
+      cName={crt.name}
+      message={messageUser}
+    />
+  );
+  if (messageListNarrator[index]) {
+    combinedMessages.push(
+      <OtherUserMessage
+        key={`narrator_${index}`}
+        message={messageListNarrator[index]}
+      />
+    );
+  }
+});
 
     return (
         <>
             <div className="relative w-full md:w-3/6 lg:w-4/6 mx-auto">
-                <div className="text-center text-white medievalsharp-bold text-[35px] py-8 capitalize">
+                <div className="text-center text-white medievalsharp-bold text-[35px] py-8 capitalize flex justify-between ">
+                    <NavLink to="/"><button className="hover:scale-150 hover:duration-500"><img className="bg-scroll p-2 w-10 rounded-md" src={homeSVG} /></button></NavLink>
                     <p>{fetchedChat.title}</p>
+                    <button className="hover:scale-150 hover:duration-500" onClick={setLogout}><img className="bg-scroll p-2 w-10 rounded-md" src={logoutSVG} /></button>
                 </div>
                 <div className="container-chat h-screen bg-scroll border-2 border-black rounded-md bg-opacity-70 overflow-y-scroll scrollbar scrollbar-scroll py-3 flex flex-col">
                     {showFirstMessage &&
@@ -245,14 +280,10 @@ export default function Chat() {
                     {showFirstMessage &&
                         <OtherUserMessage message={bivio_1} ></OtherUserMessage>
                     }
-                    <UserMessage></UserMessage>
-
-                    <OtherUserMessage></OtherUserMessage>
-                    <UserMessage></UserMessage>
-
-
-                    <OtherUserMessage></OtherUserMessage>
-                    <UserMessage cName={crt.name} cAvatar={`${imageInitUrl}${crt.avatar_url}`} ></UserMessage>
+                    
+                    {
+                        combinedMessages
+                    }  
                 </div>
                 <form className="container-input flex justify-around mt-12 items-center h-10" onSubmit={handleOnSubmit}>
                     <img className="w-32 rounded-full" src={`${imageInitUrl}${crt.avatar_url}`} />

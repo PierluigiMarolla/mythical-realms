@@ -13,8 +13,6 @@ export default function Header({ handleChange }) {
 
     const { userData, setLogout } = useAuth()
 
-    console.log(userData)
-
     return (
         <>
             <div className="relative flex justify-between md:px-24 h-28 items-center px-5">
@@ -28,7 +26,7 @@ export default function Header({ handleChange }) {
                     </button>
                     <NavLink to={"/login"}>
                         <button  onClick={setLogout} className="hover:scale-150 hover:duration-500 ms-10">
-                            <img className="bg-scroll p-2 w-10 rounded-md" src={logoutSVG} /> {/* DA METTERE IMMAGINE EXIT */}
+                            <img className="bg-scroll p-2 w-10 rounded-md" src={logoutSVG} />
                         </button>
                     </NavLink>
                     <NavLink to={"/userProfile"}>

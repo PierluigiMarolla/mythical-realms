@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider"
 
 
@@ -12,7 +12,7 @@ export default function UserCharacterAdd() {
 
     const [filePreview, setFilePreview] = useState(null);
 
-    const { register, handleSubmit } = useForm({ mode: "all" });;
+    const { register, handleSubmit } = useForm({ mode: "all" });
     const [avatar, setAvatar] = useState();
 
     const getErrorTypes = (errors) => {
@@ -24,6 +24,8 @@ export default function UserCharacterAdd() {
         return types;
     }
 
+    const navigate = useNavigate();
+
     const onSubmit = (characterData) => {
         // Qui puoi inviare i dati al backend utilizzando fetch, axios o un'altra libreria per le chiamate API.
         // Ad esempio:
@@ -32,10 +34,7 @@ export default function UserCharacterAdd() {
         ctrFormData.append(
             "name",
             characterData.name
-        )
-
-        console.log(avatar)
-        
+        )        
 
         ctrFormData.append(
             "avatar",
@@ -49,9 +48,8 @@ export default function UserCharacterAdd() {
         
         .then((response) => response.json())
             .then((data) => {
-                console.log(characterData)
                 if (!data.errors) {
-                    console.log(data)
+                    navigate("/")
                 } else {
                     Object.keys(data.errors).forEach(field => {
                         if (data.errors[field]) {

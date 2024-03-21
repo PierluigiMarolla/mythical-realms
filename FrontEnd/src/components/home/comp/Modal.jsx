@@ -36,8 +36,6 @@ export default function Modal({ sharedValue, handleChange }) {
         }
     };
 
-    console.log(logo)
-
     const [filePreview, setFilePreview] = useState(null);
 
     const { register, handleSubmit } = useForm({ mode: "all" });;
@@ -82,7 +80,6 @@ export default function Modal({ sharedValue, handleChange }) {
             .then((response) => response.json())
             .then((data) => {
                 if (!data.errors) {
-                    console.log(data)
                 } else {
                     Object.keys(data.errors).forEach(field => {
                         if (data.errors[field]) {
@@ -101,28 +98,28 @@ export default function Modal({ sharedValue, handleChange }) {
     const [characters, setCharacters] = useState([])
 
     useEffect(() => {
-        fetch(`${BACKEND_URL}/characters`, {
-            headers: {
-                'Authorization': `Bearer ${userData.token}`
-            }
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Errore nella richiesta');
+        if(userData && userData.token !== undefined) {
+            fetch(`${BACKEND_URL}/characters`, {
+                headers: {
+                    'Authorization': `Bearer ${userData.token}`
                 }
-                return response.json();
             })
-            .then(data => {
-                setCharacters(data);
-            })
-            .catch(error => {
-                console.log('Si è verificato un errore:', error);
-            });
-    }, []);
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Errore nella richiesta');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    setCharacters(data);
+                })
+                .catch(error => {
+                    console.log('Si è verificato un errore:', error);
+                });
+        }
+    }, [userData]);
 
     let characterInfo = []
-
-    console.log(characterInfo)
 
     characters.forEach(element => {
         if (element.user_id == userData.user.id) {

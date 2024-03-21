@@ -18,6 +18,7 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'password' => $this->password,
             'email' => $this->email,
             'avatar_url' => $this->avatar_url ? Storage::url($this->avatar_url) : '',
             $this->mergeWhen(

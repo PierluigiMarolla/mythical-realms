@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Resources\CharacterResource;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\CharacterController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
         $chat = Chat::find($id);
        return response()->json($chat);;
     });
+    
     
 });
 

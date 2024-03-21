@@ -85,7 +85,6 @@ export default function UserCharacterEdit() {
         setEditName(fetchedCtr.name)
     }
  
-    console.log(fetchedCtr.name)
     return (
         <>
             <div className="bg-user-character relative">

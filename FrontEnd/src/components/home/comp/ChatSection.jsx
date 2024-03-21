@@ -13,7 +13,7 @@ export default function ChatSection() {
   const[ chats, setChats] = useState([]);
 
 useEffect(() => {
-    if(userData){
+    if(userData && userData.token !== ""){
       fetch(`${BACKEND_URL}/chats`, {
         headers: {
           'Authorization': `Bearer ${userData.token}`
@@ -48,7 +48,7 @@ useEffect(() => {
                     <p className="text-[35px] w-full cinzel">Chats</p>
                 </div>
                 {chats.map((chat, index) =>(
-                    <NavLink to={`/chat/${chat.id}`}><ChatCard key={index} cTitle={chat.title} cLogo={`${imageInitUrl}${chat.logo_url}`} /></NavLink>
+                    <NavLink to={`/chat/${chat.id}`} key={index}><ChatCard  cTitle={chat.title} cLogo={`${imageInitUrl}${chat.logo_url}`} /></NavLink>
                     ))}
                 
 
