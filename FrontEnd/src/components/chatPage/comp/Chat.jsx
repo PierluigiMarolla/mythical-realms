@@ -19,6 +19,7 @@ export default function Chat() {
     const [fetchedChat, setFetchedChat] = useState([])
     const [ctrId, setCtrId] = useState();
     const [fetchedCtr, setFetchedCtr] = useState([]);
+    console.log(fetchedChat)
 
 
     useEffect(() => {
@@ -41,7 +42,9 @@ export default function Chat() {
                 })
                 .then(data => {
                     setFetchedChat(data);
-                    setCtrId(data.characters_id)
+                    console.log(data)
+                        setCtrId(data.character_id)
+                        
                     setEffettoEseguito(prev => prev + 1);
                 })
                 .catch(error => {
@@ -50,6 +53,7 @@ export default function Chat() {
         }
     }, [effettoEseguito, chatID]);
 
+    console.log(fetchedChat.character_id)
 
     useEffect(() => {
         if (effettoEseguito2 < 2 && userData) {
@@ -66,6 +70,7 @@ export default function Chat() {
                 })
                 .then(data => {
                     setFetchedCtr(data);
+                    console.log(data)
                     setEffettoEseguito2(prev => prev + 1);
                 })
                 .catch(error => {
@@ -79,10 +84,13 @@ export default function Chat() {
     let crt = ""
 
     fetchedCtr.forEach(element => {
+        
         if (element.id == fetchedChat.character_id) {
-
+            console.log("element") 
             crt = element
-        }
+        } else if(fetchedChat.characters_id == undefined) {
+            crt = fetchedCtr[0]
+        }  
     })
 
 
